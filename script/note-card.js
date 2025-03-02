@@ -1,6 +1,7 @@
 class NoteCard extends HTMLElement {
   constructor() {
     super();
+    // Open shadow DOM 
     this.attachShadow({ mode: "open" });
 
     this.shadowRoot,
@@ -41,7 +42,7 @@ class NoteCard extends HTMLElement {
         `);
     }
     
-    //Render elements
+    //Render elements when entering shadow DOM
     connectedCallback() {
         this.render();
         this.addEventListener('click', () => {
