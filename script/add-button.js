@@ -42,7 +42,7 @@ class AddButton extends HTMLElement {
             //Visual feedback
             this.setAttribute('button-state', 'active');
             setTimeout(() => {
-                this.setAttribute('button-state', 'idel');
+                this.setAttribute('button-state', 'idle');
             }, 300);
         });
     }

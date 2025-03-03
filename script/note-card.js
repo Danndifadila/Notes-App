@@ -1,11 +1,10 @@
 class NoteCard extends HTMLElement {
   constructor() {
     super();
-    // Open shadow DOM 
+    // Open shadow DOM
     this.attachShadow({ mode: "open" });
 
-    this.shadowRoot,
-      (this.innerHTML = `
+    this.shadowRoot.innerHTML = `
             < style >
             :host {
                 display: block;
@@ -39,50 +38,50 @@ class NoteCard extends HTMLElement {
             </style>
             <div class="note-title"></div>
             <div class="note-content"></div>
-        `);
+        `;
+  }
+
+  //Render elements when entering shadow DOM
+  connectedCallback() {
+    this.render();
+    this.addEventListener("click", () => {
+      this.editNote();
+    });
+  }
+
+  static get observedAttributes() {
+    return ["note-title", "note-content", "note-status", "note-id"];
+  }
+
+  attributeChandeCallback(name, oldValue, newValue) {
+    this.render();
+  }
+
+  render() {
+    const titleEl = this.shadowRoot.querySelector(".note-tile");
+    const contentEl = this.shadowRoot.querySelector(".note-content");
+
+    if (titleEl && contentEl) {
+      titleEl.textContent = this.getAttribute("note-title") || "Untilted";
+      contentEl.textContent = this.getAttribute("note-content") || "No Content";
     }
-    
-    //Render elements when entering shadow DOM
-    connectedCallback() {
-        this.render();
-        this.addEventListener('click', () => {
-            this.DOCUMENT_POSITION_CONTAINED_BY();
-        })
-    }
+  }
 
-    static get observedAttributes() {
-        return ['note-title', 'note-content', 'note-status', 'note-id'];
-    }
+  editNote() {
+    const id = this.getAttribute("note-id");
+    const title = this.getAttribute("note-title");
+    const content = this.getAttribute("note-content");
 
-    attributeChandeCallback(name, oldValue, newValue) {
-        this.render();
-    }
+    //Fire custom event to edit this note
+    const event = new CustomEvent("edit-note", {
+      detail: { id, title, content },
+      bubbles: true,
+      composed: true,
+    });
 
-    render() {
-        const titleEl = this.shadowRoot.querySelector('.note-tile');
-        const contentEl = this.shadowRoot.querySelector('.note-content');
-
-        if (titleEl && contentEl) {
-            titleEl.textContent = this.getAttribute('note-title') || 'Untilted';
-            contentEl.textContent = this.getAttribute('note-content') || 'No Content';
-        }
-    }
-
-    editnote() {
-        const id = this.getAttribute('note-id');
-        const title = this.getAttribute("note-title");
-        const content = this.getAttribute("note-content");
-
-        //Fire custom event to edit this note
-        const event = new CustomEvent('edit-note', {
-            detail: { id, title, content },
-            bubbles: true,
-            composed: true
-        });
-
-        this.dispatchEvent(event);
-    }
+    this.dispatchEvent(event);
+  }
 }
 
 //Register custom element
-customElements.define('note-card', NoteCard);
+customElements.define("note-card", NoteCard);

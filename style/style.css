@@ -211,11 +211,11 @@ add-button[button-state="active"] {
 }
 
 .save-button {
-  background-color: var(--save-color);
+  background-color: var(--success-color);
 }
 
 .cancel-button {
-  background-color: var(--cancel-color);
+  background-color: var(--error-color);
 }
 
 .save-button:hover,

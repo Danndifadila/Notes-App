@@ -211,7 +211,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     const title = noteTitleInput.value.trim();
-    const content = noteContentInput.value.trim();
+    const body = noteContentInput.value.trim();
 
     if (editingNoteId) {
       // Update existing note
