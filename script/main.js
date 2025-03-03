@@ -1,2 +1,3 @@
-import "./note-card"
-import "./add-button"
+import "./note-card.js"
+import "./add-button.js"
+import "./data.js"
