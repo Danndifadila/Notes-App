@@ -121,8 +121,6 @@ document.addEventListener("DOMContentLoaded", function () {
     },
   ];
 
-  console.log(notesData);
-
   //Load notes
   function renderNotes() {
     notesGrid.innerHTML = "";
@@ -144,7 +142,7 @@ document.addEventListener("DOMContentLoaded", function () {
     return note.title.trim().lenght > 0 && note.body.trim().lenght > 0;
   }
 
-  //Realtime Validation
+  // Validation title
   function validateTitle() {
     const title = noteTitleInput.value.trim();
     if (title.lenght === 0) {
@@ -201,26 +199,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Save a note
   function saveNote(event) {
+    console.log("Saving Note...");
     event.preventDefault();
-
-    const isValidTitle = validateTitle();
-    const isValidContent = validateContent();
-
-    if (!isValidTitle || !isValidContent) {
-      return;
-    }
 
     const title = noteTitleInput.value.trim();
     const body = noteContentInput.value.trim();
 
+    if (!title || !body) {
+      console.log("Title or body is empty!");
+      return;
+    }
+      
     if (editingNoteId) {
-      // Update existing note
+        // Update existing note
+        console.log("Editing existing note, ID:", editingNoteId); 
       const index = notesData.findIndex((note) => note.id === editingNoteId);
       if (index !== -1) {
-        notesData[index] = { ...notesData[index], title, body };
-      }
+          notesData[index] = { ...notesData[index], title, body };
+      } 
     } else {
-      // Add new note
+        // Add new note
       const newId =
         notesData.length > 0
           ? Math.max(...notesData.map((note) => note.id)) + 1
@@ -239,12 +237,11 @@ document.addEventListener("DOMContentLoaded", function () {
   // Event listeners
   addNoteButton.addEventListener("add-note", showAddNoteForm);
 
+  // Edit note
   document.addEventListener("edit-note", (event) => {
     const { id, title, body } = event.detail;
-    const note = notesData.find((note) => note.id == id);
-    if (note) {
-      showEditNoteForm(note);
-    }
+    notesData.find((note) => note.id == id);
+    showEditNoteForm(event.detail);
   });
 
   cancelButton.addEventListener("click", closeNoteForm);

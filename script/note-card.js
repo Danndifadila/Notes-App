@@ -14,7 +14,7 @@ class NoteCard extends HTMLElement {
                 border-radius: 10px;
                 padding: 1.5rem;
                 box-shadow: 0 4px 6px rgba(0, 0, 0, 0, 0.1);
-                transtion: transform 0.3s ease;
+                transition: transform 0.3s ease;
                 cursor: pointer;
                 color: white;
             }

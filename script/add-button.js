@@ -3,7 +3,9 @@ class AddButton extends HTMLElement {
     super();
     this.attachShadow({ mode: "open" });
 
-    this.shadowRoot.innerHTML = `
+    //   Styling
+    const template = document.createElement("template");
+    template.innerHTML = `
         <style>
             :host {
                 display: flex;
@@ -28,25 +30,27 @@ class AddButton extends HTMLElement {
         </style>
         <slot>+</slot>
         `;
-    }
-    
-    connectedCallback() {
-        this.addEventListener('click', () => {
-            const event = new CustomEvent('add-note', {
-                bubbles: true,
-                composed: true
-            });
 
-            this.dispatchEvent(event);
+    this.shadowRoot.appendChild(template.content.cloneNode(true));
+  }
 
-            //Visual feedback
-            this.setAttribute('button-state', 'active');
-            setTimeout(() => {
-                this.setAttribute('button-state', 'idle');
-            }, 300);
-        });
-    }
+  connectedCallback() {
+    this.addEventListener("click", () => {
+      const event = new CustomEvent("add-note", {
+        bubbles: true,
+        composed: true,
+      });
+
+      this.dispatchEvent(event);
+
+      //Visual feedback
+      this.setAttribute("button-state", "active");
+      setTimeout(() => {
+        this.setAttribute("button-state", "idle");
+      }, 300);
+    });
+  }
 }
 
 // Register custom element
-customElements.define('add-button', AddButton);
+customElements.define("add-button", AddButton);
