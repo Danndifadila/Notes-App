@@ -4,8 +4,10 @@ class NoteCard extends HTMLElement {
     // Open shadow DOM
     this.attachShadow({ mode: "open" });
 
-    this.shadowRoot.innerHTML = `
-            < style >
+    // Styling
+    const template = document.createElement("template");
+    template.innerHTML = `
+            <style>
             :host {
                 display: block;
                 background-color: #9932cc;
@@ -39,6 +41,8 @@ class NoteCard extends HTMLElement {
             <div class="note-title"></div>
             <div class="note-content"></div>
         `;
+
+    this.shadowRoot.appendChild(template.content.cloneNode(true));
   }
 
   //Render elements when entering shadow DOM
@@ -58,7 +62,7 @@ class NoteCard extends HTMLElement {
   }
 
   render() {
-    const titleEl = this.shadowRoot.querySelector(".note-tile");
+    const titleEl = this.shadowRoot.querySelector(".note-title");
     const contentEl = this.shadowRoot.querySelector(".note-content");
 
     if (titleEl && contentEl) {
@@ -68,13 +72,12 @@ class NoteCard extends HTMLElement {
   }
 
   editNote() {
-    const id = this.getAttribute("note-id");
     const title = this.getAttribute("note-title");
-    const content = this.getAttribute("note-content");
+    const body = this.getAttribute("note-content");
 
     //Fire custom event to edit this note
     const event = new CustomEvent("edit-note", {
-      detail: { id, title, content },
+      detail: { title, body },
       bubbles: true,
       composed: true,
     });
