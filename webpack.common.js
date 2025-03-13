@@ -1,32 +1,32 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const path = require('path')
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-    mode: "production",
-    entry: "./script/main.js",
-    output: {
-        path: path.resolve(__dirname, "dist"),
-        filename: "bundle.js",
-    },
-    module: {
-        rules: [
-            {
-                test: /\.css/,
-                use: [
-                    {
-                        loader: "style-loader",
-                    },
-                    {
-                        loader: "css-loader",
-                    },
-                ],
-            },
+  mode: "production",
+  entry: "./src/script/main.js",
+  output: {
+    path: path.resolve(__dirname, "dist"),
+    filename: "bundle.js",
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css/,
+        use: [
+          {
+            loader: "style-loader",
+          },
+          {
+            loader: "css-loader",
+          },
         ],
-    },
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: "./src/template.html",
-            filename: "index.html"
-        })
-    ]
-}
+      },
+    ],
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "./src/template.html",
+      filename: "index.html",
+    }),
+  ],
+};
