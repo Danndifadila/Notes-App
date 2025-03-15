@@ -2,12 +2,12 @@ document.addEventListener("DOMContentLoaded", function () {
   const notesGrid = document.getElementById("notesGrid");
   const addNoteButton = document.getElementById("addNoteBtn");
   const floatingForm = document.getElementById("floatingForm");
-  const cancelButton = document.getElementById("cancelButton");
   const noteForm = document.getElementById("noteForm");
   const noteTitleInput = document.getElementById("noteTitle");
   const noteContentInput = document.getElementById("noteContent");
-  const titleValidation = document.getElementById("titleValidation");
-  const contentValidation = document.getElementById("contentValidation");
+  const deleteButton = document.getElementById("deleteButton");
+  const saveButton = document.getElementById("saveButton");
+  const cancelButton = document.getElementById("cancelButton");
 
   let editingNoteId = null;
 
@@ -17,13 +17,11 @@ document.addEventListener("DOMContentLoaded", function () {
   // GET data from API
   async function fetchNotes() {
     try {
-      const response = await fetch(`${API_URL}/notes`, {
-        method: "GET",
-      });
-      const result = await response.json();
-      const notesData = Array.isArray(result) ? result : result.data || [];
-      
-      renderNotes(notesData);
+      const response = await fetch(`${API_URL}/notes`);
+      if (!response.ok) throw new Error("Failed to fetch notes");
+
+      const { data } = await response.json();
+      renderNotes(data);
     } catch (error) {
       console.error("Error fetching notes:", error);
     }
@@ -41,11 +39,13 @@ document.addEventListener("DOMContentLoaded", function () {
         "note-status",
         note.archived ? "Archived" : "Active"
       );
+
+      noteCard.addEventListener("click", () => showEditNoteForm(note));
       notesGrid.appendChild(noteCard);
     });
   }
 
-  // Put notes to API
+  // Post notes to API
   async function saveNote(event) {
     event.preventDefault();
 
@@ -53,41 +53,53 @@ document.addEventListener("DOMContentLoaded", function () {
     const body = noteContentInput.value.trim();
 
     if (!title || !body) {
-      console.log("Validation failed!");
+      console.log("Title or body empty!");
       return;
     }
 
-    const noteData = { title, body };
-
     try {
-      if (editingNoteId) {
-        // Update existing note
-        await fetch(`${API_URL}/notes/${editingNoteId}`, {
-          method: "PUT",
-          body: JSON.stringify(noteData),
-        });
-      } else {
-        // Add new note
-        await fetch(`${API_URL}/notes`, {
-          method: "POST",
-          body: JSON.stringify(noteData),
-        })
-      }
+      const response = await fetch(`${API_URL}/notes`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title, body }),
+      });
 
-      fetchNotes();
+      if (!response.ok) throw new Error(result.message || "Failed to add note");
+
+      await fetchNotes();
       closeNoteForm();
     } catch (error) {
-      console.error("Error saving note:", error);
+      console.error("Error adding note:", error);
     }
   }
 
   // DELETE note from API
-  async function deleteNote(noteId) {
+  async function deleteNote() {
+    if (!editingNoteId) return;
+
     try {
-      await fetch(`${API_URL}/notes/{note_id}`, { method: "DELETE" });
-      fetchNotes();
+      const response = await fetch(`${API_URL}/notes/${editingNoteId}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) throw new Error("Failed to delete note");
+
+      await fetchNotes();
+      closeNoteForm();
     } catch (error) {
       console.error("Error deleting note:", error);
+    }
+  }
+
+  // Arcived note from API
+  async function ToggleArchieveStatus(noteId, archived) {
+    try {
+      const response = await fetch(`${API_URL}/notes/${noteId}/archive`, {
+        method: archived ? "POST" : "DELETE",
+      });
+      if (!response.ok) throw new Error("Failed to update archive status");
+      await fetchNotes();
+    } catch (error) {
+      console.error("Error updating archive status: ", error);
     }
   }
 
@@ -96,37 +108,41 @@ document.addEventListener("DOMContentLoaded", function () {
     noteForm.reset();
     editingNoteId = null;
     floatingForm.style.display = "flex";
-    titleValidation.textContent = "";
-    contentValidation.textContent = "";
-    noteTitleInput.focus();
+    saveButton.textContent = "Save";
+    saveButton.style.display = "inline-block"
+    deleteButton.style.display = "none";
+    cancelButton.style.display = "inline-block";
   }
 
-  // Show edit note form
   function showEditNoteForm(note) {
     noteTitleInput.value = note.title;
     noteContentInput.value = note.body;
     editingNoteId = note.id;
     floatingForm.style.display = "flex";
-    titleValidation.textContent = "";
-    contentValidation.textContent = "";
-    noteTitleInput.focus();
+    saveButton.style.display = "none";
+    deleteButton.style.display = "inline-block";
+    cancelButton.style.display = "inline-block"
   }
 
   // Close note form
   function closeNoteForm() {
     floatingForm.style.display = "none";
+    editingNoteId = null;
   }
 
   // Event listeners
   addNoteButton.addEventListener("click", showAddNoteForm);
+  saveButton.addEventListener("click", saveButton);
+  deleteButton.addEventListener("click", deleteNote);
   cancelButton.addEventListener("click", closeNoteForm);
   noteForm.addEventListener("submit", saveNote);
+  floatingForm.addEventListener("click", (event) => {
+    if (event.target === floatingForm) closeNoteForm();
+  });
 
   // Close form when clicking outside of it
   floatingForm.addEventListener("click", (event) => {
-    if (event.target === floatingForm) {
-      closeNoteForm();
-    }
+    if (event.target === floatingForm) closeNoteForm();
   });
 
   // Initial render

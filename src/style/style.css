@@ -4,7 +4,8 @@
   --text-color: #ffffff;
   --card-bg: #9932cc;
   --add-button-bg: #dc3545;
-  --error-color: #ff4136;
+  --error-color: #ff3c00;
+  --delete-color: #ff1100;
   --success-color: #2ecc40;
 }
 
@@ -216,6 +217,10 @@ add-button[button-state="active"] {
 
 .cancel-button {
   background-color: var(--error-color);
+}
+
+#deleteButton {
+  background-color: var(--delete-color);
 }
 
 .save-button:hover,
