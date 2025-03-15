@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const deleteButton = document.getElementById("deleteButton");
   const saveButton = document.getElementById("saveButton");
   const cancelButton = document.getElementById("cancelButton");
+  const loadingElement = document.getElementById("loading");
 
   let editingNoteId = null;
 
@@ -16,14 +17,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // GET data from API
   async function fetchNotes() {
+    showLoading();
     try {
       const response = await fetch(`${API_URL}/notes`);
       if (!response.ok) throw new Error("Failed to fetch notes");
-
+      await sleep();
       const { data } = await response.json();
       renderNotes(data);
     } catch (error) {
       console.error("Error fetching notes:", error);
+    } finally {
+      hideLoading();
     }
   }
 
@@ -37,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
       noteCard.setAttribute("note-content", note.body);
       noteCard.setAttribute(
         "note-status",
-        note.archived ? "Archived" : "Active"
+        note.archived ? "Archived" : "Active",
       );
 
       noteCard.addEventListener("click", () => showEditNoteForm(note));
@@ -66,6 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (!response.ok) throw new Error(result.message || "Failed to add note");
 
+      hideLoading(loading);
       await fetchNotes();
       closeNoteForm();
     } catch (error) {
@@ -73,10 +78,26 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  function showLoading() {
+    loadingElement.style.display = "block";
+    notesGrid.innerHTML = "";
+  }
+
+  function hideLoading() {
+    loadingElement.style.display = "none";
+  }
+
+  function sleep(response = null) {
+    return new Promise((resolve) =>
+      setTimeout(() => {
+        resolve(response);
+      }, 3000),
+    );
+  }
+
   // DELETE note from API
   async function deleteNote() {
     if (!editingNoteId) return;
-
     try {
       const response = await fetch(`${API_URL}/notes/${editingNoteId}`, {
         method: "DELETE",
@@ -109,7 +130,7 @@ document.addEventListener("DOMContentLoaded", function () {
     editingNoteId = null;
     floatingForm.style.display = "flex";
     saveButton.textContent = "Save";
-    saveButton.style.display = "inline-block"
+    saveButton.style.display = "inline-block";
     deleteButton.style.display = "none";
     cancelButton.style.display = "inline-block";
   }
@@ -121,7 +142,7 @@ document.addEventListener("DOMContentLoaded", function () {
     floatingForm.style.display = "flex";
     saveButton.style.display = "none";
     deleteButton.style.display = "inline-block";
-    cancelButton.style.display = "inline-block"
+    cancelButton.style.display = "inline-block";
   }
 
   // Close note form
@@ -132,15 +153,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Event listeners
   addNoteButton.addEventListener("click", showAddNoteForm);
+  noteForm.addEventListener("submit", saveNote);
   saveButton.addEventListener("click", saveButton);
   deleteButton.addEventListener("click", deleteNote);
   cancelButton.addEventListener("click", closeNoteForm);
-  noteForm.addEventListener("submit", saveNote);
-  floatingForm.addEventListener("click", (event) => {
-    if (event.target === floatingForm) closeNoteForm();
-  });
-
-  // Close form when clicking outside of it
   floatingForm.addEventListener("click", (event) => {
     if (event.target === floatingForm) closeNoteForm();
   });

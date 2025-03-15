@@ -97,7 +97,9 @@ add-button {
   cursor: pointer;
   border: none;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease, background-color 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    background-color 0.3s ease;
 }
 
 add-button:hover {
@@ -208,7 +210,9 @@ add-button[button-state="active"] {
   color: white;
   font-size: 1rem;
   cursor: pointer;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
 }
 
 .save-button {
