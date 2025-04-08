@@ -23,4 +23,27 @@ This is a simple Notes App I built to write down things like activities, plans, 
 
 ```bash
 git clone https://github.com/Danndifadila/Notes-App.git
+```
+2. Navigate into the project:
 
+```bash
+cd Notes-App
+```
+
+3. Install depedencies:
+
+```bash 
+npm install
+```
+
+4. Run the app:
+
+```bash 
+npm start
+```
+It should be up on http://localhost:8000
+
+## 📄 License
+MIT – free to use, improve, and share 😊
+
+Feel free to tweak or customize this app however you like~ and thanks for stopping by! (´｡• ᵕ •｡`) ♡
