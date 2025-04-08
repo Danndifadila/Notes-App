@@ -1,31 +1,31 @@
 {
-  "name": "notes-app",
-  "version": "1.0.0",
-  "description": "my notes app",
-  "main": "main.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --config webpack.prod.js",
-    "start-dev": "webpack-dev-server --config webpack.dev.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Danndifadila/Notes-App.git"
-  },
-  "author": "Danndifadila",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Danndifadila/Notes-App/issues"
-  },
-  "homepage": "https://github.com/Danndifadila/Notes-App#readme",
-  "devDependencies": {
-    "css-loader": "^7.1.2",
-    "html-webpack-plugin": "^5.6.3",
-    "prettier": "3.5.3",
-    "style-loader": "^4.0.0",
-    "webpack": "^5.98.0",
-    "webpack-cli": "^6.0.1",
-    "webpack-dev-server": "^5.2.0",
-    "webpack-merge": "^6.0.1"
-  }
+    "name": "notes-app",
+    "version": "1.0.0",
+    "description": "my notes app",
+    "main": "main.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "webpack --config webpack.prod.js",
+        "start-dev": "webpack-dev-server --config webpack.dev.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Danndifadila/Notes-App.git"
+    },
+    "author": "Danndifadila",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Danndifadila/Notes-App/issues"
+    },
+    "homepage": "https://github.com/Danndifadila/Notes-App#readme",
+    "devDependencies": {
+        "css-loader": "^7.1.2",
+        "html-webpack-plugin": "^5.6.3",
+        "prettier": "3.5.3",
+        "style-loader": "^4.0.0",
+        "webpack": "^5.98.0",
+        "webpack-cli": "^6.0.1",
+        "webpack-dev-server": "^5.2.0",
+        "webpack-merge": "^6.0.1"
+    }
 }

@@ -1,56 +1,76 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>My Notes App</title>
-    <script defer="defer" src="bundle.js"></script>
-  </head>
-  <body>
-    <div class="container">
-      <header><main-header></main-header></header>
-      <main>
-        <div class="notes-grid" id="notesGrid"></div>
-        <loading id="loading">Loading...</loading>
-        <div class="add-button-container">
-          <add-button id="addNoteBtn" button-state="idle">+</add-button>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>My Notes App</title>
+        <script defer="defer" src="bundle.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <header><main-header></main-header></header>
+            <main>
+                <div class="notes-grid" id="notesGrid"></div>
+                <loading id="loading">Loading...</loading>
+                <div class="add-button-container">
+                    <add-button id="addNoteBtn" button-state="idle"
+                        >+</add-button
+                    >
+                </div>
+            </main>
+            <footer><p>Notes App - By Danndifadila</p></footer>
         </div>
-      </main>
-      <footer><p>Notes App - By Danndifadila</p></footer>
-    </div>
-    <div class="floating-form-container" id="floatingForm">
-      <div class="floating-form">
-        <div class="form-header"><h2>Add or Edit Notes</h2></div>
-        <form id="noteForm">
-          <div class="note-input-container">
-            <input
-              class="note-input-title"
-              id="noteTitle"
-              placeholder="Add Title..."
-              required
-            />
-            <div class="validation-message" id="titleValidation"></div>
-            <textarea
-              class="note-input-content"
-              id="noteContent"
-              placeholder="Add information..."
-              required
-            ></textarea>
-            <div class="validation-message" id="contentValidation"></div>
-          </div>
-          <div class="form-actions">
-            <button type="submit" class="save-button" id="saveButton">
-              <span>✓</span> Save
-            </button>
-            <button type="button" class="cancel-button" id="deleteButton">
-              <span>✕</span> Delete
-            </button>
-            <button type="button" class="cancel-button" id="cancelButton">
-              <span>✕</span> Cancel
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </body>
+        <div class="floating-form-container" id="floatingForm">
+            <div class="floating-form">
+                <div class="form-header"><h2>Add or Edit Notes</h2></div>
+                <form id="noteForm">
+                    <div class="note-input-container">
+                        <input
+                            class="note-input-title"
+                            id="noteTitle"
+                            placeholder="Add Title..."
+                            required
+                        />
+                        <div
+                            class="validation-message"
+                            id="titleValidation"
+                        ></div>
+                        <textarea
+                            class="note-input-content"
+                            id="noteContent"
+                            placeholder="Add information..."
+                            required
+                        ></textarea>
+                        <div
+                            class="validation-message"
+                            id="contentValidation"
+                        ></div>
+                    </div>
+                    <div class="form-actions">
+                        <button
+                            type="submit"
+                            class="save-button"
+                            id="saveButton"
+                        >
+                            <span>✓</span> Save
+                        </button>
+                        <button
+                            type="button"
+                            class="cancel-button"
+                            id="deleteButton"
+                        >
+                            <span>✕</span> Delete
+                        </button>
+                        <button
+                            type="button"
+                            class="cancel-button"
+                            id="cancelButton"
+                        >
+                            <span>✕</span> Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
 </html>

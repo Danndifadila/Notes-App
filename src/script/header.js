@@ -1,13 +1,13 @@
 class MainHearder extends HTMLElement {
-  constructor() {
-    super();
+    constructor() {
+        super();
 
-    this.innerHTML = `
+        this.innerHTML = `
         <h1>
             My Notes 
         </h1>
         `;
-  }
+    }
 }
 
 customElements.define("main-header", MainHearder);

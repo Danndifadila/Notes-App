@@ -1,9 +1,9 @@
 class Loading extends HTMLElement {
-  constructor() {
-    super();
+    constructor() {
+        super();
 
-    this.attachShadow({ mode: open });
-  }
+        this.attachShadow({ mode: open });
+    }
 }
 
 customElements.define("loading", Loading);
